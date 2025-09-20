@@ -66,7 +66,7 @@ func RunProc(storedProcedure string, params []ProcParam[any]) (*sql.Rows, error)
 
 	rows, err := db.Query(storedProcedure, args...)
 
-	args = make([]any, 0)
+	//args = make([]any, 0)
 
 	if err != nil {
 		return nil, err
@@ -84,7 +84,9 @@ func connect() (*sql.DB, error) {
 	dbName := os.Getenv("DATABASE_DBNAME")
 	dbAppName := os.Getenv("DATABASE_APPNAME")
 
-	fmt.Println(fmt.Sprintf("connect: try to start connection: Server=%s, Port=%s, DB=%s, User=%s", dbServer, dbPort, dbName, dbUser))
+	info := fmt.Sprintf("connect: try to start connection: Server=%s, Port=%s, DB=%s, User=%s", dbServer, dbPort, dbName, dbUser)
+
+	fmt.Println(info)
 
 	iDbPort, err := strconv.Atoi(dbPort)
 
