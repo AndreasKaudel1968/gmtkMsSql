@@ -15,7 +15,10 @@ func TestRunProc_Logx(t *testing.T) {
 	os.Setenv("DATABASE_APPNAME", "TestApp")
 
 	// Beispielparameter für die Prozedur Logx
-	var result int
+	// ...existing code...
+	var resultValue int64 = 250
+	var result *int64 = &resultValue
+	// ...existing code...
 	params := []ProcParam[any]{
 		{
 			Name:      "task",
@@ -59,7 +62,7 @@ func TestRunProc_Logx(t *testing.T) {
 		},
 	}
 
-	rows, err := RunProc("Logx", params)
+	rows, err := RunProc("Logx", &params)
 	if err != nil {
 		t.Fatalf("RunProc(Logx) Fehler: %v", err)
 	}
@@ -69,6 +72,6 @@ func TestRunProc_Logx(t *testing.T) {
 	// if result == "" {
 	// 	t.Errorf("Output-Parameter 'Result' wurde nicht gesetzt")
 	// }
-	t.Logf("Output-Parameter 'Result': %d", result)
+	t.Logf("Output-Parameter 'Result': %d ... %d", params[7].OutPointer.(int64), *result)
 
 }

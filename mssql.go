@@ -24,11 +24,11 @@ type ProcParam[T any] struct {
 	OutPointer any
 }
 
-var db *sql.DB = nil
+//var db *sql.DB = nil
 
 //var cnt int = 0
 
-func RunProc(storedProcedure string, params []ProcParam[any]) (*sql.Rows, error) {
+func RunProc(storedProcedure string, params *[]ProcParam[any]) (*sql.Rows, error) {
 
 	var err error
 	/*
@@ -52,13 +52,14 @@ func RunProc(storedProcedure string, params []ProcParam[any]) (*sql.Rows, error)
 	defer db.Close()
 
 	var args []any
-	for _, p := range params {
+	for i, p := range *params {
 
 		switch p.Direction {
 		case DirectionInput:
 			args = append(args, sql.Named(p.Name, p.Value))
 		case DirectionOutput:
-			args = append(args, sql.Named(p.Name, sql.Out{Dest: &p.OutPointer}))
+			//args = append(args, sql.Named(p.Name, sql.Out{Dest: &p.OutPointer}))
+			args = append(args, sql.Named(p.Name, sql.Out{Dest: &(*params)[i].OutPointer}))
 		default:
 			fmt.Println("undefined direction in sql param list")
 		}
@@ -88,7 +89,7 @@ func connect() (*sql.DB, error) {
 
 	fmt.Println(info)
 
-	iDbPort, err := strconv.Atoi(dbPort)
+	iDbPort, _ := strconv.Atoi(dbPort)
 
 	query := url.Values{}
 	query.Add("database", dbName)
