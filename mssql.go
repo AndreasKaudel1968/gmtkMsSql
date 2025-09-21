@@ -67,7 +67,13 @@ func RunProc(storedProcedure string, params *[]ProcParam[any]) (*sql.Rows, error
 
 	rows, err := db.Query(storedProcedure, args...)
 
-	//args = make([]any, 0)
+	for i, p := range *params {
+
+		if p.Direction == DirectionOutput {
+			//fmt.Printf("Output Param %d: %s = %v\n", i, p.Name, p.OutPointer)
+			(*params)[i].Value = (*params)[i].OutPointer
+		}
+	}
 
 	if err != nil {
 		return nil, err

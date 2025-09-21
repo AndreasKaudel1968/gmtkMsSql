@@ -72,6 +72,6 @@ func TestRunProc_Logx(t *testing.T) {
 	// if result == "" {
 	// 	t.Errorf("Output-Parameter 'Result' wurde nicht gesetzt")
 	// }
-	t.Logf("Output-Parameter 'Result': %d ... %d", params[7].OutPointer.(int64), *result)
+	t.Logf("Output-Parameter 'Result': %d ... %d", params[7].OutPointer.(int64), params[7].Value.(int64))
 
 }
